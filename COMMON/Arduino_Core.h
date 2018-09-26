@@ -43,7 +43,7 @@ typedef					uint32_t	UINT32;
 
 // Structs /////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef enum PINMODE_T
+typedef enum class PINMODE_T
 {
 	//Pin modes
 	eDIGITAL_IN 			= 0xA0, //Digital input
@@ -97,17 +97,17 @@ typedef struct Pin
 	{
 		switch(m_Get_PinMode())
 		{
-		case eDIGITAL_IN:
+		case PINMODE_T::eDIGITAL_IN:
 		
 			pinMode(m_nPinNumber, INPUT);
 		
 			break;
-		case eDIGITAL_OUT:
+		case PINMODE_T::eDIGITAL_OUT:
 		
 			pinMode(m_nPinNumber, OUTPUT);
 			
 			break;
-		case eDIGITAL_PWM:
+		case PINMODE_T::eDIGITAL_PWM:
 			
 			pinMode(m_nPinNumber, OUTPUT);
 			SoftPWMSet(m_nPinNumber, 0);
@@ -135,13 +135,13 @@ typedef struct Pin
 	{
 		switch(m_Get_PinMode())
 		{
-		case eDIGITAL_OUT:
+		case PINMODE_T::eDIGITAL_OUT:
 			
 			//Apply digital write to pin
 			digitalWrite(m_nPinNumber, (bset) ? HIGH : LOW);
 			
 			break;
-		case eDIGITAL_IN:
+		case PINMODE_T::eDIGITAL_IN:
 			
 			//Read the digital state of the pin
 			bSet = digitalRead(m_nPinNumber);
@@ -170,20 +170,20 @@ typedef struct Pin
 	{
 		switch(m_Get_PinMode())
 		{
-		case eDIGITAL_PWM:
+		case PINMODE_T::eDIGITAL_PWM:
 		
 			UINT08 nValue = (fValue > 100) 100 : ((fValue < 0) ? 0 : (UINT08)fValue);
 			softPWMSetPercent(m_nPinNumber, fValue, false);
 			
 			break;
-		case eANALOG_PWM:
+		case PINMODE_T::eANALOG_PWM:
 
 			//Convert value that is in range of 0 - PLATFORM_MAX_VOLTAGE to 0 - 255 and write
 			UINT08 nValue = (fValue > PLATFORM_MAX_VOLTAGE) ? PLATFORM_MAX_VOLTAGE : ((fValue < 0) ? 0 : (fValue/PLATFORM_MAX_VOLTAGE)*255);
 			analogWrite(m_nPinNumber, nValue);
 		
 			break;
-		case eANALOG_IN:
+		case PINMODE_T::eANALOG_IN:
 		
 			//Read the analog voltage on the pin then convert it to range 0 - PLATFORM_MAX_VOLTAGE
 			UINT08 nValue = analogRead(m_nPinNumber);
@@ -209,26 +209,26 @@ typedef struct Pin
 	void g_Arduino_Specific_Init()
 	{
 		//Assign g_pArduino_PinArray
-		g_pArduino_PinArray =	{	{false, 	0,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	1,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	2,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	3,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	4,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	5,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	6,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	7,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	8,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	9,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	10,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	11,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	12,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	13,	{eDIGITAL_CONFIG, eUNINITIALIZED}},
-									{false, 	0,	{eANALOG_CONFIG, eUNINITIALIZED}},
-									{false, 	1,	{eANALOG_CONFIG, eUNINITIALIZED}},
-									{false, 	2,	{eANALOG_CONFIG, eUNINITIALIZED}},
-									{false, 	3,	{eANALOG_CONFIG, eUNINITIALIZED}},
-									{false, 	4,	{eANALOG_CONFIG, eUNINITIALIZED}},
-									{false, 	5,	{eANALOG_CONFIG, eUNINITIALIZED}}	};
+		g_pArduino_PinArray =	{	{false, 	0,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	1,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	2,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	3,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	4,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	5,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	6,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	7,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	8,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	9,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	10,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	11,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	12,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	13,	{PINMODE_T::eDIGITAL_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	0,	{PINMODE_T::eANALOG_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	1,	{PINMODE_T::eANALOG_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	2,	{PINMODE_T::eANALOG_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	3,	{PINMODE_T::eANALOG_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	4,	{PINMODE_T::eANALOG_CONFIG, PINMODE_T::eUNINITIALIZED}},
+									{false, 	5,	{PINMODE_T::eANALOG_CONFIG, PINMODE_T::eUNINITIALIZED}}	};
 		
 		//Configure the analog reference scale
 		analogReference(DEFAULT);
@@ -261,8 +261,8 @@ Reserves and configures an open pin within the Arduino's pin array
 */
 BOOLEAN g_AssignPin(Pin * pPin, UINT08 nPin, PINMODE_T ePinMode)
 {
-	if(((ePinMode == eDIGITAL_IN) || (ePinMode == eDIGITAL_OUT) || (ePinMode == eDIGITAL_PWM)) 
-		&& (g_pArduino_PinArray[nPin].m_Get_PinConfig() == eDIGITAL_CONFIG))
+	if(((ePinMode == PINMODE_T::eDIGITAL_IN) || (ePinMode == PINMODE_T::eDIGITAL_OUT) || (ePinMode == PINMODE_T::eDIGITAL_PWM)) 
+		&& (g_pArduino_PinArray[nPin].m_Get_PinConfig() == PINMODE_T::eDIGITAL_CONFIG))
 	{
 		//If the requested pin is of the correct configuration and also not reserved
 		if(!g_pArduino_PinArray[nPin].m_Get_Reserved())
@@ -273,12 +273,12 @@ BOOLEAN g_AssignPin(Pin * pPin, UINT08 nPin, PINMODE_T ePinMode)
 			return true;
 		}
 	}
-	else if(((ePinMode == eANALOG_IN) || (ePinMode == eANALOG_PWM))
+	else if(((ePinMode == PINMODE_T::eANALOG_IN) || (ePinMode == PINMODE_T::eANALOG_PWM))
 	{
 		//Need to calculate the location of the analog pin within the Pin Array
 		UINT08 nAPin = g_Arduino_PinMax_Digital + nPin;
 		
-		if((g_pArduino_PinArray[nAPin].m_Get_PinConfig() == eANALOG_CONFIG) && (!g_pArduino_PinArray[nAPin].m_Get_Reserved()))
+		if((g_pArduino_PinArray[nAPin].m_Get_PinConfig() == PINMODE_T::eANALOG_CONFIG) && (!g_pArduino_PinArray[nAPin].m_Get_Reserved()))
 		{
 			g_pArduino_PinArray[nAPin].m_Reset_Configuration(true, nAPin, ePinMode);
 			pPin = &g_pArduino_PinArray[nAPin];
@@ -305,10 +305,10 @@ BOOLEAN g_DeassignPin(Pin * pPin)
 {	
 	if(pPin)
 	{
-		if(pPin->m_Get_PinConfig() != eINTERNAL_CONFIG)
+		if(pPin->m_Get_PinConfig() != PINMODE_T::eINTERNAL_CONFIG)
 		{
 			//If the pin is configured for software PWM
-			if(pPin->m_get_PinMode() == eDIGITAL_PWM)
+			if(pPin->m_get_PinMode() == PINMODE_T::eDIGITAL_PWM)
 				SoftPWMEnd(pPin->m_nPinNumber);
 			
 			//Reset the configuration of the pin and then return pPin as NULL (deassigned)
