@@ -10,7 +10,9 @@ public:
 	RGB_LED(SINT08 nRedPin=-1, SINT08 nGreenPin=-1, SINT08 nBluePin=-1)
 	{
 		if((nRed > -1) && (nGreen > -1) && (nBlue > -1)
-			&& g_AssignPin(m_pRedPin, nRedPin, Pin::eDigital_PWM) && g_AssignPin(m_pGreenPin, nGreenPin, Pin::eDigital_PWM) && g_AssignPin(m_pBluePin, nBluePin, Pin::eDigital_PWM))
+			&& g_AssignPin(m_pRedPin, nRedPin, Pin::eDigital_PWM) 
+			&& g_AssignPin(m_pGreenPin, nGreenPin, Pin::eDigital_PWM)
+			&& g_AssignPin(m_pBluePin, nBluePin, Pin::eDigital_PWM))
 		{			
 			m_pRedPin->m_Attach();
 			m_pGreenPin->m_Attach();

@@ -1,12 +1,13 @@
-#ifndef PRESSURE_SENSOR_H
-#define PRESSURE_SENSOR_H
+#ifndef AMB_LIGHT_SENSOR_H
+#define AMB_LIGHT_SENSOR_H
 
 #include "Arduino_Core.h"
 
-class Pressure_Sensor
+class Ambient_Light_Sensor
 {
 public:
-	Pressure_Sensor(SINT08 nPin=-1)
+
+	Ambient_Light_Sensor(SINT08 nPin=-1)
 	{
 		if(!((nPin > -1) && g_AssignPin(m_pPSensorPin, nPin, Pin::eANALOG_IN)))
 			m_pSensorPin = NULL;
@@ -15,7 +16,7 @@ public:
 		m_fAnalogRaw = -1;
 	}
 	
-	~Pressure_Sensor()
+	~Ambient_Light_Sensor()
 	{
 		if(m_pPSensorPin)
 		{
@@ -36,10 +37,11 @@ public:
 	}
 
 private:
-	
+
 	BOOLEAN m_bValidRead;
 	Pin * m_pSensorPin;
 	float m_fVoltageRaw;
+
 };
 
 #endif
